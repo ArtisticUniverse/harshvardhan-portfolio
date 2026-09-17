@@ -214,7 +214,7 @@ function CharacterStage({ play, active, heroRef }: { play: boolean; active: bool
   }, [heroRef]);
 
   return (
-    <div ref={stage} className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[64svh] md:left-auto md:right-[2vw] md:h-[92svh] md:w-[min(62vw,980px)]">
+    <div ref={stage} className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[64svh] md:left-auto md:right-[2vw] md:h-[84svh] md:w-[min(58vw,920px)]">
       <div
         data-halo
         aria-hidden
@@ -299,7 +299,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div data-hero-photo className="absolute inset-0">
+      <div data-hero-photo className="pointer-events-none absolute inset-0 z-[2]">
         <CharacterStage play={loaded} active={inView} heroRef={section} />
       </div>
 
