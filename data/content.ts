@@ -119,7 +119,7 @@ export type Memory = {
 export const timeline: Memory[] = [
   {
     id: "origin",
-    period: "2016 — 2022",
+    period: "2018 — 2022",
     chapter: "ORIGIN",
     title: "Learning to build",
     org: "Yashodham → Thakur College (Sci & Comm) → B.E. Computer Engineering, TCET",
