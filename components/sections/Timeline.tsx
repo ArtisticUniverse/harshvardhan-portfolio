@@ -5,6 +5,7 @@ import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { timeline, type Memory, sectionLabel } from "@/data/content";
 import { playSound } from "@/lib/sound";
 import SplitReveal from "@/components/ui/SplitReveal";
+import MemoryScene from "@/components/ui/MemoryScenes";
 
 const TILT = [-3, 2.5, -1.5, 3, -2];
 const OFFSET = ["md:-translate-y-6", "md:translate-y-10", "md:-translate-y-2", "md:translate-y-8", "md:-translate-y-8"];
@@ -15,8 +16,8 @@ function Polaroid({ m, i }: { m: Memory; i: number }) {
   return (
     <article data-memory className="relative w-full shrink-0 md:w-[min(31vw,430px)]">
       <div
-        className={`${OFFSET[i % OFFSET.length]} [rotate:calc(var(--tilt)*0.35)] md:[rotate:var(--tilt)]`}
-        style={{ "--tilt": `${TILT[i % TILT.length]}deg` } as React.CSSProperties}
+        className={`memory-float ${OFFSET[i % OFFSET.length]} [rotate:calc(var(--tilt)*0.35)] md:[rotate:var(--tilt)]`}
+        style={{ "--tilt": `${TILT[i % TILT.length]}deg`, animationDelay: `${-i * 1.3}s` } as React.CSSProperties}
       >
       <button
         type="button"
@@ -35,13 +36,28 @@ function Polaroid({ m, i }: { m: Memory; i: number }) {
         >
           {/* Front */}
           <div className="bg-[rgb(var(--paper))] p-3 pb-5 text-[rgb(var(--paper-ink))] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] [backface-visibility:hidden]">
-            <div data-photo className="relative aspect-[4/4.3] overflow-hidden bg-[#0d0d0c] text-[#F2F0EA]">
+            <div
+              data-photo
+              className="memory-photo relative aspect-[4/4.3] overflow-hidden bg-[#0d0d0c] text-[#F2F0EA]"
+              onPointerMove={(e) => {
+                const r = e.currentTarget.getBoundingClientRect();
+                e.currentTarget.style.setProperty("--px", (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
+                e.currentTarget.style.setProperty("--py", (((e.clientY - r.top) / r.height) * 2 - 1).toFixed(3));
+              }}
+              onPointerLeave={(e) => {
+                e.currentTarget.style.removeProperty("--px");
+                e.currentTarget.style.removeProperty("--py");
+              }}
+            >
+              <div className="absolute inset-0 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]">
+                <MemoryScene id={m.id} />
+              </div>
+              <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+              <div aria-hidden className="memory-leak pointer-events-none absolute inset-0 mix-blend-screen" />
               <div
                 aria-hidden
-                className="absolute inset-0 opacity-70"
-                style={{
-                  background: `radial-gradient(120% 90% at ${20 + i * 17}% ${30 + (i % 3) * 20}%, rgba(235,185,74,0.28), transparent 55%), repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 3px)`,
-                }}
+                className="pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay"
+                style={{ background: "repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 3px)" }}
               />
               <span className="mono-label absolute left-3 top-3 text-[#F2F0EA]/60">MEMORY_0{i + 1}.JPG</span>
               <span className="mono-label absolute right-3 top-3 text-[#EBB94A]">[ {m.chapter} ]</span>
