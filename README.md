@@ -37,11 +37,10 @@ npm run build && npm start
 3. Optional env var: `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` for Plausible. Vercel Analytics is already wired in; enable it in the project's Analytics tab.
 4. After the first deploy, set `site.url` in `data/content.ts` to the live domain and redeploy so OG tags and the sitemap point to it.
 
-With the CLI:
+With the CLI, from this folder:
 
 ```bash
-npx vercel        # preview
-npx vercel --prod # production
+npm run deploy    # production deploy, retries on "fetch failed"
 ```
 
 ## Features
