@@ -24,9 +24,6 @@ const vertex = /* glsl */ `
     p.z += d * uDepthScale;
     // Breathing: a slow swell through the chest and shoulders.
     p.z += sin(uTime * 1.4) * 0.012 * d;
-    // Liquid ripple near the pointer while hovered.
-    float dist = distance(uv, uPointer);
-    p.z += sin(dist * 26.0 - uTime * 5.0) * 0.03 * smoothstep(0.35, 0.0, dist) * uHover * d;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
   }
 `;
@@ -51,14 +48,8 @@ const fragment = /* glsl */ `
     if (vUv.y > edge) discard;
     float scan = smoothstep(edge - 0.02, edge, vUv.y);
 
-    float dist = distance(vUv, uPointer);
-    float fall = smoothstep(0.3, 0.0, dist) * uHover;
-    float shift = 0.004 * uHover + fall * 0.012;
-
     vec4 base = texture2D(uTex, vUv);
-    float r = texture2D(uTex, vUv + vec2(shift, 0.0)).r;
-    float b = texture2D(uTex, vUv - vec2(shift, 0.0)).b;
-    vec3 col = vec3(r, base.g, b);
+    vec3 col = base.rgb;
     float alpha = base.a;
     if (alpha < 0.03) discard;
 
@@ -109,7 +100,7 @@ function Bust({ src, depth, state, onReady }: { src: string; depth: string; stat
     () => ({
       uTex: { value: tex },
       uDepth: { value: depthTex },
-      uDepthScale: { value: 0.55 },
+      uDepthScale: { value: 0.26 },
       uTexel: { value: new THREE.Vector2(1 / 362, 1 / 390) },
       uGold: { value: new THREE.Color("#EBB94A") },
       uLight: { value: new THREE.Vector2(-0.6, 0.5) },
@@ -151,8 +142,8 @@ function Bust({ src, depth, state, onReady }: { src: string; depth: string; stat
     u.uLight.value.x += (-s.x * 0.9 - 0.2 - u.uLight.value.x) * 0.05;
     u.uLight.value.y += (s.y * 0.6 + 0.45 - u.uLight.value.y) * 0.05;
 
-    const targetY = s.x * 0.42 + Math.sin(t * 0.35) * 0.05;
-    const targetX = -s.y * 0.14 + Math.sin(t * 0.5) * 0.015;
+    const targetY = s.x * 0.2 + Math.sin(t * 0.35) * 0.03;
+    const targetX = -s.y * 0.06 + Math.sin(t * 0.5) * 0.01;
     g.rotation.y += (targetY - g.rotation.y) * 0.06;
     g.rotation.x += (targetX - g.rotation.x) * 0.06;
     g.position.y = -viewport.height / 2 + height / 2 + Math.sin(t * 0.8) * 0.03;
