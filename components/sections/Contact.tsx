@@ -184,9 +184,9 @@ export default function Contact() {
           <div>
             <p className="mono-label text-muted">Reach & based</p>
             <p className="mt-2 text-lg leading-snug">
-              <a href={`mailto:${links.email}`} className="block break-all hover:text-accent-ink">{links.email}</a>
-              <a href={`mailto:${links.eduEmail}`} className="block break-all hover:text-accent-ink">{links.eduEmail}</a>
-              <a href={links.tel} className="block hover:text-accent-ink">{links.phone}</a>
+              <a href={`mailto:${links.email}`} className="block break-all py-1.5 hover:text-accent-ink">{links.email}</a>
+              <a href={`mailto:${links.eduEmail}`} className="block break-all py-1.5 hover:text-accent-ink">{links.eduEmail}</a>
+              <a href={links.tel} className="block py-1.5 hover:text-accent-ink">{links.phone}</a>
               <span className="mt-2 block text-ink/70">From {site.hometown} · now in {site.location.city} ({site.location.lat}, {site.location.lon})</span>
             </p>
           </div>
@@ -201,14 +201,14 @@ export default function Contact() {
           </span>
         </div>
         <p className="mono-label text-muted">{site.credit}</p>
-        <div className="mono-label flex gap-4">
-          <a href={links.github} target="_blank" rel="noreferrer" className="hover:text-accent-ink">
+        <div className="mono-label flex flex-wrap gap-x-4">
+          <a href={links.github} target="_blank" rel="noreferrer" className="inline-flex items-center py-2.5 hover:text-accent-ink">
             GitHub
           </a>
-          <button onClick={openRecruiter} className="hover:text-accent-ink">
+          <button onClick={openRecruiter} className="inline-flex items-center py-2.5 hover:text-accent-ink">
             Recruiter mode
           </button>
-          <button onClick={() => scrollToTarget(0)} className="hover:text-accent-ink">
+          <button onClick={() => scrollToTarget(0)} className="inline-flex items-center py-2.5 hover:text-accent-ink">
             Back to top ↑
           </button>
         </div>

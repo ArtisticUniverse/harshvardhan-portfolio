@@ -136,8 +136,8 @@ export default function Menu() {
             transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
             aria-hidden
           />
-          <div className="gutter relative flex h-full flex-col pb-6 pt-24 md:pt-28">
-            <div className="grid flex-1 grid-cols-12 gap-4 overflow-y-auto">
+          <div className="gutter relative flex h-full flex-col pb-5 pt-20 md:pt-28">
+            <div className="grid min-h-0 flex-1 grid-cols-12 gap-4 overflow-y-auto overscroll-contain">
               <ul className="col-span-12 flex flex-col justify-center md:col-span-8">
                 {sections.map((s, i) => (
                   <li key={s.id} className="overflow-hidden border-b border-ink/10">
@@ -148,7 +148,7 @@ export default function Menu() {
                         playSound("tick");
                       }}
                       onFocus={() => setHovered(s.id)}
-                      className="group flex w-full items-baseline gap-4 py-1 text-left md:py-1.5"
+                      className="group flex w-full items-baseline gap-4 py-0.5 text-left md:py-1.5"
                       initial={{ y: "110%" }}
                       animate={{ y: "0%" }}
                       exit={{ y: "-110%" }}
@@ -156,7 +156,7 @@ export default function Menu() {
                       data-cursor="GO"
                     >
                       <span className="mono-label w-8 text-muted group-hover:text-accent-ink">{s.n}</span>
-                      <span className="text-[clamp(1.9rem,5.6vh,4.2rem)] font-semibold uppercase leading-[1] tracking-[-0.03em] transition-[transform,color] duration-500 group-hover:translate-x-4 group-hover:text-accent-ink">
+                      <span className="text-[clamp(1.5rem,4.8vh,4.2rem)] font-semibold uppercase leading-[1.05] tracking-[-0.03em] transition-[transform,color] duration-500 group-hover:translate-x-4 group-hover:text-accent-ink">
                         {s.label}
                       </span>
                     </m.button>
@@ -197,13 +197,13 @@ export default function Menu() {
               exit={{ opacity: 0 }}
               transition={{ delay: 0.7 }}
             >
-              <div className="flex flex-wrap gap-5">
-                <a href={`mailto:${links.email}`} className="hover:text-accent-ink">Email</a>
-                <a href={links.tel} className="hover:text-accent-ink">{links.phone}</a>
-                <a href={links.linkedin} target="_blank" rel="noreferrer" className="hover:text-accent-ink">LinkedIn</a>
-                <a href={links.github} target="_blank" rel="noreferrer" className="hover:text-accent-ink">GitHub</a>
-                <a href={links.cv} download className="hover:text-accent-ink">CV (PDF)</a>
-                <button onClick={openRecruiter} className="hover:text-accent-ink">Recruiter mode</button>
+              <div className="flex flex-wrap gap-x-5">
+                <a href={`mailto:${links.email}`} className="inline-flex items-center py-2 hover:text-accent-ink">Email</a>
+                <a href={links.tel} className="inline-flex items-center py-2 hover:text-accent-ink">{links.phone}</a>
+                <a href={links.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center py-2 hover:text-accent-ink">LinkedIn</a>
+                <a href={links.github} target="_blank" rel="noreferrer" className="inline-flex items-center py-2 hover:text-accent-ink">GitHub</a>
+                <a href={links.cv} download className="inline-flex items-center py-2 hover:text-accent-ink">CV (PDF)</a>
+                <button onClick={openRecruiter} className="inline-flex items-center py-2 hover:text-accent-ink">Recruiter mode</button>
               </div>
               <div className="flex gap-5">
                 <span>{site.location.lat} {site.location.city.toUpperCase()}</span>
