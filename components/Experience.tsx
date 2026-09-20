@@ -14,6 +14,7 @@ import EasterEggs from "@/components/global/EasterEggs";
 import ProjectSheet from "@/components/global/ProjectSheet";
 import Hero from "@/components/sections/Hero";
 import StatsMarquee from "@/components/sections/StatsMarquee";
+import About from "@/components/sections/About";
 import Timeline from "@/components/sections/Timeline";
 import Ventures from "@/components/sections/Ventures";
 import VibeLab from "@/components/sections/VibeLab";
@@ -41,6 +42,7 @@ export default function Experience() {
         <Hero />
         {theNumber.enabled && <TheNumber />}
         <StatsMarquee />
+        <About />
         <Timeline />
         <Ventures />
         <VibeLab />

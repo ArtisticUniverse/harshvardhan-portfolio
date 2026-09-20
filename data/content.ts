@@ -103,7 +103,64 @@ export const stats = [
   "MBA @ IIM Udaipur",
 ];
 
-/* ── 02 · Timeline — "Recollections" ──────────────────────────────────────── */
+/* ── 02 · About ───────────────────────────────────────────────────────────── */
+
+// TODO(harsh): paste your LinkedIn "About" text over these — the structure stays.
+export const about = {
+  kicker: "Who is Harsh?",
+  /** Same story at three lengths; the visitor picks how much time to give it. */
+  speeds: [
+    {
+      id: "10s",
+      label: "10 seconds",
+      read: "≈ 25 words",
+      body: [
+        "Computer engineer → VC analyst → entrepreneur → MBA at IIM Udaipur. I find the messiest part of a business and rebuild it as something people actually use.",
+      ],
+    },
+    {
+      id: "30s",
+      label: "30 seconds",
+      read: "≈ 90 words",
+      body: [
+        "I spent 32 months at Eagle Group reading the market from the inside: 150+ startups screened, 57 investment memos, 500+ founders and investors met. Then I went the other way and ran things on the ground — AI-education operations across 20,000+ Maharashtra schools, 120 trainers, 700+ kits.",
+        "Alongside that I started Putri Innovations, which builds software for small businesses, and Putri Banquet, which has run 300+ events. Now I'm at IIM Udaipur, sharpening finance and strategy — and still shipping apps on weekends.",
+      ],
+    },
+    {
+      id: "2m",
+      label: "2 minutes",
+      read: "≈ 260 words",
+      body: [
+        "I grew up in Mumbai and studied computer engineering at TCET, where I learned that a model is only useful if a person can actually use it. My final projects — a CNN that spots disease in paddy leaves, a face-recognition system that took attendance on its own — mattered to me because a farmer and a teacher could use them without knowing what a neural network is.",
+        "Then I joined a venture firm and spent two and a half years on the other side of the table. Reading 150+ startups teaches you pattern recognition fast: which markets are real, which moats are stories, which founders have done the unglamorous work. Writing 57 memos taught me to argue with evidence and to be comfortable saying no.",
+        "But analysing businesses all day makes you want to build one. Putri Innovations came out of watching small businesses run on registers and phone calls when software could do it better. Putri Banquet taught me what analysts rarely see: payroll, vendors, guests and a plan that has to survive contact with a Saturday evening.",
+        "At Sapio Analytica I learned scale — 25 teams, 120 trainers, a state-sized rollout where logistics decide whether a good idea reaches a classroom.",
+        "Now at IIM Udaipur I'm putting a formal finance and strategy layer on all of it. And because AI moved the ceiling, I build what I would once have only specced: apps, agents, this site. Engineer's hands, investor's questions, operator's calendar.",
+      ],
+    },
+  ],
+  truthsTitle: "Things that are true about me",
+  truths: [
+    "I read a pitch deck faster than a restaurant menu.",
+    "My first instinct with any problem: could this just be a product?",
+    "Chess taught me to think five moves ahead. Operations taught me the board changes anyway.",
+    "I shipped a native Android app without knowing Kotlin — by prompting, reading and fixing until it ran.",
+    "Jack of all trades, on purpose. Range compounds.",
+    "Swimming is where I debug my head.",
+    "A spreadsheet is a good argument. A working demo is a better one.",
+  ],
+  nowTitle: "Currently",
+  now: [
+    { k: "Studying", v: "Finance, Marketing, Microeconomics, Stats & OB at IIM Udaipur" },
+    { k: "Building", v: "Putri Manager — an urban-life OS for property operations" },
+    { k: "Learning", v: "FMVA, and whatever the next build demands" },
+    { k: "Playing", v: "Chess — still an e4 person" },
+    { k: "Recharging", v: "Laps in the pool, phone far away" },
+  ],
+};
+
+/* ── 03 · Timeline — "Recollections" ──────────────────────────────────────── */
 
 export type Memory = {
   id: string;
@@ -196,7 +253,7 @@ export const timeline: Memory[] = [
   },
 ];
 
-/* ── Projects (03 · Entrepreneur mode + 04 · OG builds + case studies) ─────────── */
+/* ── Projects (04 · Entrepreneur mode + 04 · OG builds + case studies) ─────────── */
 
 export type Project = {
   id: string;
@@ -438,7 +495,7 @@ export const ogBuilds = projects.filter((p) => p.category === "engineering");
 
 export const entrepreneurLine = "I don't just analyse businesses. I build them.";
 
-/* ── 04 · The Vibe Coder Lab ──────────────────────────────────────────────── */
+/* ── 05 · The Vibe Coder Lab ──────────────────────────────────────────────── */
 
 export type ClaudeBuild = {
   id: string;
@@ -570,7 +627,7 @@ export const terminal = {
   } as Record<string, string[]>,
 };
 
-/* ── 05 · How I think ─────────────────────────────────────────────────────── */
+/* ── 06 · How I think ─────────────────────────────────────────────────────── */
 
 export const principles = [
   {
@@ -599,7 +656,7 @@ export const principles = [
   },
 ];
 
-/* ── 06 · Skills universe ─────────────────────────────────────────────────── */
+/* ── 07 · Skills universe ─────────────────────────────────────────────────── */
 
 export type SkillGroup = "capital" | "ops" | "growth" | "build" | "mind";
 
@@ -643,7 +700,7 @@ export const skills: { label: string; group: SkillGroup; evidence: string }[] = 
   { label: "Range", group: "mind", evidence: "Engineer, investor, operator, entrepreneur — a jack of all trades, on purpose." },
 ];
 
-/* ── 07 · Certifications ──────────────────────────────────────────────────── */
+/* ── 08 · Certifications ──────────────────────────────────────────────────── */
 
 export const certifications = [
   { title: "FMVA", issuer: "KOED Learning", year: "2026", status: "Pursuing" },
@@ -656,7 +713,7 @@ export const certifications = [
   { title: "Responsive Web Design", issuer: "University of London", year: "2020" },
 ];
 
-/* ── 08 · Beyond the CV — desk of memories ────────────────────────────────── */
+/* ── 09 · Beyond the CV — desk of memories ────────────────────────────────── */
 
 export type DeskItem = {
   id: string;
@@ -751,7 +808,7 @@ export const deskItems: DeskItem[] = [
   },
 ];
 
-/* ── 09 · Contact ─────────────────────────────────────────────────────────── */
+/* ── 10 · Contact ─────────────────────────────────────────────────────────── */
 
 export const contact = {
   heading: ["LET'S BUILD", "SOMETHING"],
@@ -785,14 +842,15 @@ export const education = [
 
 export const sections = [
   { id: "hero", n: "01", label: "Origin", hud: "ORIGIN" },
-  { id: "recollections", n: "02", label: "Recollections", hud: "RECOLLECTIONS" },
-  { id: "ventures", n: "03", label: "Entrepreneur Mode", hud: "ENTREPRENEUR" },
-  { id: "lab", n: "04", label: "Vibe Coder Lab", hud: "VIBE LAB" },
-  { id: "mindset", n: "05", label: "How I Think", hud: "HOW I THINK" },
-  { id: "skills", n: "06", label: "Skills Universe", hud: "SKILLS" },
-  { id: "certs", n: "07", label: "Certifications", hud: "CERTS" },
-  { id: "beyond", n: "08", label: "Beyond the CV", hud: "BEYOND" },
-  { id: "contact", n: "09", label: "Contact", hud: "CONTACT" },
+  { id: "about", n: "02", label: "About", hud: "ABOUT" },
+  { id: "recollections", n: "03", label: "Recollections", hud: "RECOLLECTIONS" },
+  { id: "ventures", n: "04", label: "Entrepreneur Mode", hud: "ENTREPRENEUR" },
+  { id: "lab", n: "05", label: "Vibe Coder Lab", hud: "VIBE LAB" },
+  { id: "mindset", n: "06", label: "How I Think", hud: "HOW I THINK" },
+  { id: "skills", n: "07", label: "Skills Universe", hud: "SKILLS" },
+  { id: "certs", n: "08", label: "Certifications", hud: "CERTS" },
+  { id: "beyond", n: "09", label: "Beyond the CV", hud: "BEYOND" },
+  { id: "contact", n: "10", label: "Contact", hud: "CONTACT" },
 ] as const;
 
 export const recruiterMessage = {
