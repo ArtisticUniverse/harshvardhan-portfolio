@@ -20,14 +20,6 @@ export default function About() {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from("[data-truth]", {
-          opacity: 0,
-          x: -24,
-          stagger: 0.07,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: { trigger: "[data-truths]", start: "top 85%", once: true },
-        });
         gsap.from("[data-now-row]", {
           opacity: 0,
           y: 16,
@@ -128,27 +120,12 @@ export default function About() {
           {/* Things that are true */}
           <div className="lg:col-span-5">
             <div className="relative">
-              <div className="relative mx-auto w-full max-w-[380px] rotate-[1.5deg] overflow-hidden rounded-sm border border-ink/15 bg-surface/70 lg:ml-auto lg:mr-0">
-                <img src={photo.src} alt="" className="aspect-[4/3] w-full object-cover object-[50%_28%] opacity-90 grayscale" loading="lazy" />
+              <div className="relative mx-auto w-full max-w-[380px] rotate-[1.5deg] overflow-hidden rounded-sm border border-ink/15 bg-surface/70 lg:ml-auto lg:mr-0 lg:max-w-none">
+                <img src={photo.src} alt="" className="aspect-[4/5] w-full object-cover object-[50%_22%] opacity-90 grayscale" loading="lazy" />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-canvas via-canvas/20 to-transparent" />
                 <span className="mono-label absolute bottom-3 left-4 text-accent-ink">FROM MUMBAI · NOW UDAIPUR</span>
               </div>
 
-              <ul data-truths className="mt-10 flex flex-col">
-                <li className="mono-label pb-3 text-muted">{about.truthsTitle}</li>
-                {about.truths.map((t, i) => (
-                  <li
-                    key={t}
-                    data-truth
-                    className="group flex gap-4 border-t border-ink/10 py-3.5 transition-colors hover:text-accent-ink"
-                  >
-                    <span className="mono-label pt-1 text-muted transition-colors group-hover:text-accent-ink">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="leading-snug">{t}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>

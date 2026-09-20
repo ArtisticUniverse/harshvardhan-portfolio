@@ -4,6 +4,7 @@ import { useEffect, useId, useRef } from "react";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { entrepreneurLine, ventures, type Project, sectionLabel } from "@/data/content";
 import ProjectArt from "@/components/ui/ProjectArt";
+import LazyVisual from "@/components/ui/LazyVisual";
 import { openProject } from "@/components/global/ProjectSheet";
 import SplitReveal from "@/components/ui/SplitReveal";
 import Magnetic from "@/components/ui/Magnetic";
@@ -26,12 +27,20 @@ function VentureCard({ v, i }: { v: Project; i: number }) {
       turb.current?.setAttribute("baseFrequency", `${state.freq.toFixed(4)} ${(state.freq * 1.6).toFixed(4)}`);
     };
     const enter = () => {
+      if (media) media.style.filter = `url(#${filterId})`;
       gsap.to(state, { scale: 70, freq: 0.02, duration: 0.5, ease: "power3.out", onUpdate: apply });
       gsap.to(state, { scale: 0, freq: 0.012, duration: 1.4, delay: 0.5, ease: "expo.out", onUpdate: apply });
       gsap.to(media, { scale: 1.06, duration: 1.2, ease: "expo.out" });
     };
     const leave = () => {
-      gsap.to(state, { scale: 0, duration: 0.6, onUpdate: apply });
+      gsap.to(state, {
+        scale: 0,
+        duration: 0.6,
+        onUpdate: apply,
+        onComplete: () => {
+          if (media) media.style.filter = "none";
+        },
+      });
       gsap.to(media, { scale: 1, duration: 1.2, ease: "expo.out" });
     };
     el.addEventListener("pointerenter", enter);
@@ -41,7 +50,7 @@ function VentureCard({ v, i }: { v: Project; i: number }) {
       el.removeEventListener("pointerenter", enter);
       el.removeEventListener("pointerleave", leave);
     };
-  }, []);
+  }, [filterId]);
 
   const view = () => openProject(v.id);
 
@@ -63,8 +72,14 @@ function VentureCard({ v, i }: { v: Project; i: number }) {
             className="relative col-span-12 min-h-[42svh] overflow-hidden text-left md:col-span-7 md:min-h-0"
           >
             <span className="sr-only">Open the {v.name} case study</span>
-            <div data-media className="absolute inset-0" style={{ filter: `url(#${filterId})` }}>
-              {v.image ? <img src={v.image} alt="" className="h-full w-full object-cover" loading="lazy" /> : <ProjectArt kind={v.art ?? "data"} />}
+            <div data-media className="absolute inset-0">
+              {v.image ? (
+                <img src={v.image} alt="" className="h-full w-full object-cover" loading="lazy" />
+              ) : (
+                <LazyVisual className="absolute inset-0">
+                  <ProjectArt kind={v.art ?? "data"} />
+                </LazyVisual>
+              )}
             </div>
             <span className="mono-label absolute left-4 top-4 rounded-full bg-[#0A0A0A]/70 px-2.5 py-1 text-[#F2F0EA] backdrop-blur">
               {v.index} · {v.year} · {v.role}

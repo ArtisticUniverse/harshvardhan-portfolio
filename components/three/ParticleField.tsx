@@ -137,12 +137,12 @@ function Points({ count, heroRef }: { count: number; heroRef: React.RefObject<HT
 }
 
 export default function ParticleField({ active, heroRef }: { active: boolean; heroRef: React.RefObject<HTMLElement> }) {
-  const count = typeof window !== "undefined" && window.innerWidth < 768 ? 650 : 1600;
+  const count = typeof window !== "undefined" && window.innerWidth < 768 ? 420 : 900;
   return (
     <Canvas
       className="!absolute inset-0"
       camera={{ position: [0, 0, 8], fov: 60 }}
-      dpr={[1, 1.75]}
+      dpr={[1, 1.5]}
       gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       frameloop={active ? "always" : "never"}
       eventSource={undefined}

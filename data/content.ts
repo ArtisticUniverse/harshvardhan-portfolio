@@ -140,16 +140,6 @@ export const about = {
       ],
     },
   ],
-  truthsTitle: "Things that are true about me",
-  truths: [
-    "I read a pitch deck faster than a restaurant menu.",
-    "My first instinct with any problem: could this just be a product?",
-    "Chess taught me to think five moves ahead. Operations taught me the board changes anyway.",
-    "I shipped a native Android app without knowing Kotlin — by prompting, reading and fixing until it ran.",
-    "Jack of all trades, on purpose. Range compounds.",
-    "Swimming is where I debug my head.",
-    "A spreadsheet is a good argument. A working demo is a better one.",
-  ],
   nowTitle: "Currently",
   now: [
     { k: "Studying", v: "Finance, Marketing, Microeconomics, Stats & OB at IIM Udaipur" },

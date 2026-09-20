@@ -66,7 +66,7 @@ function Origin() {
   return (
     <Frame id="origin" sky={["#070914", "#1a1432", "#3a2233"]}>
       <Layer depth={-4}>
-        {Array.from({ length: 40 }, (_, i) => (
+        {Array.from({ length: 16 }, (_, i) => (
           <circle key={i} cx={n(rand(i, 7) * 400)} cy={n(rand(i, 8) * 170)} r={n(0.6 + rand(i, 9))} fill={PAPER} style={anim("twinkle", 2 + rand(i, 4) * 3, rand(i, 5) * 3)} />
         ))}
         <circle cx="318" cy="78" r="46" fill="url(#origin-glow)" />
@@ -77,12 +77,12 @@ function Origin() {
         {buildings.map((b, i) => (
           <g key={i}>
             <rect x={n(b.x)} y={n(300 - b.h)} width={n(b.w)} height={n(b.h + 10)} fill="#15132a" />
-            {Array.from({ length: Math.floor(b.h / 16) }, (_, k) =>
+            {Array.from({ length: Math.min(4, Math.floor(b.h / 40)) }, (_, k) =>
               rand(i * 31 + k, 11) > 0.55 ? (
                 <rect
                   key={k}
                   x={n(b.x + 3 + (k % 2) * 6)}
-                  y={n(300 - b.h + 8 + k * 14)}
+                  y={n(300 - b.h + 10 + k * 34)}
                   width="3"
                   height="4"
                   fill={GOLD}
@@ -116,10 +116,10 @@ function Origin() {
       <Layer depth={14}>
         <rect y="318" width="400" height="112" fill="#070a14" />
         <rect x="300" y="322" width="36" height="90" fill={WARM} opacity="0.12" style={anim("shimmer", 3)} />
-        {Array.from({ length: 7 }, (_, k) => (
+        {Array.from({ length: 4 }, (_, k) => (
           <path
             key={k}
-            d={`M0 ${332 + k * 12} q 25 -3 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0`}
+            d={`M0 ${336 + k * 18} q 25 -3 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0`}
             stroke={PAPER}
             strokeOpacity={n(0.1 - k * 0.008)}
             fill="none"
@@ -129,7 +129,7 @@ function Origin() {
       </Layer>
 
       <Layer depth={20}>
-        {["</>", "{ }", "01", "if", "=>", "AI"].map((t, k) => (
+        {["</>", "{ }", "01", "AI"].map((t, k) => (
           <text
             key={t}
             x={n(40 + k * 62)}
@@ -176,9 +176,9 @@ function Campus() {
       </Layer>
 
       <Layer depth={12}>
-        {Array.from({ length: 3 }, (_, row) =>
-          Array.from({ length: 11 - row }, (_, c) => {
-            const x = 18 + c * 38 + row * 19;
+        {Array.from({ length: 2 }, (_, row) =>
+          Array.from({ length: 9 - row }, (_, c) => {
+            const x = 22 + c * 46 + row * 23;
             const y = 330 + row * 34;
             return (
               <g key={`${row}-${c}`} style={anim("bob", 1.4 + rand(c, row) * 1.2, rand(row, c) * 1.5)}>
@@ -192,7 +192,7 @@ function Campus() {
       </Layer>
 
       <Layer depth={18}>
-        {Array.from({ length: 18 }, (_, k) => (
+        {Array.from({ length: 9 }, (_, k) => (
           <rect
             key={k}
             x={n(rand(k, 21) * 400)}
@@ -242,8 +242,8 @@ function Capital() {
       <Layer depth={14}>
         {/* The funnel: 150 in, ~10% out */}
         <path d="M110 225 L290 225 L218 318 L218 360 L182 360 L182 318 Z" fill="none" stroke={PAPER} strokeOpacity="0.35" strokeWidth="1.5" />
-        {Array.from({ length: 26 }, (_, k) => {
-          const pass = k % 9 === 0;
+        {Array.from({ length: 14 }, (_, k) => {
+          const pass = k % 5 === 0;
           return (
             <circle
               key={k}
@@ -276,8 +276,8 @@ function Scale() {
   return (
     <Frame id="scale" sky={["#07120f", "#0f1f1a"]}>
       <Layer depth={-2}>
-        {Array.from({ length: 12 }, (_, k) => (
-          <line key={k} x1="0" x2="400" y1={k * 36} y2={k * 36} stroke={PAPER} strokeOpacity="0.04" />
+        {Array.from({ length: 6 }, (_, k) => (
+          <line key={k} x1="0" x2="400" y1={k * 72} y2={k * 36} stroke={PAPER} strokeOpacity="0.04" />
         ))}
       </Layer>
       <Layer depth={6}>
@@ -289,7 +289,7 @@ function Scale() {
           strokeOpacity="0.45"
           strokeWidth="1.2"
         />
-        {Array.from({ length: 70 }, (_, k) => {
+        {Array.from({ length: 26 }, (_, k) => {
           const x = 70 + rand(k, 61) * 270;
           const y = 110 + rand(k, 62) * 200;
           return <circle key={k} cx={n(x)} cy={n(y)} r="1.6" fill={PAPER} style={anim("twinkle", 1.5 + rand(k, 63) * 2.5, rand(k, 64) * 3)} />;
@@ -329,8 +329,8 @@ function Now() {
           <path d={`M${x - 11} ${k % 3 === 1 ? 192 : 216} Q ${x} ${k % 3 === 1 ? 172 : 198} ${x + 11} ${k % 3 === 1 ? 192 : 216} Z`} fill="#1a0f1c" />
         </g>
       ))}
-      {Array.from({ length: 12 }, (_, k) => (
-        <path key={k} d={`M${74 + k * 22} 286 L${74 + k * 22} 262 Q ${81 + k * 22} 252 ${88 + k * 22} 262 L${88 + k * 22} 286 Z`} fill={WARM} opacity={rand(k, 71) > 0.5 ? 0.55 : 0.2} style={anim("twinkle", 3 + rand(k, 72) * 3, rand(k, 73) * 3)} />
+      {Array.from({ length: 7 }, (_, k) => (
+        <path key={k} d={`M${74 + k * 38} 286 L${74 + k * 22} 262 Q ${81 + k * 22} 252 ${88 + k * 22} 262 L${88 + k * 22} 286 Z`} fill={WARM} opacity={rand(k, 71) > 0.5 ? 0.55 : 0.2} style={anim("twinkle", 3 + rand(k, 72) * 3, rand(k, 73) * 3)} />
       ))}
     </>
   );
@@ -339,7 +339,7 @@ function Now() {
       <Layer depth={-5}>
         <circle cx="210" cy="200" r="120" fill="url(#now-glow)" />
         <circle cx="210" cy="206" r="44" fill="#ffd98f" style={anim("sun", 8)} />
-        {[0, 1, 2].map((k) => (
+        {[0, 1].map((k) => (
           <path key={k} d="M0 0 q 6 -6 12 0 q 6 -6 12 0" stroke="#2a1238" strokeWidth="1.8" fill="none" transform={`translate(${60 + k * 30} ${90 + k * 14})`} style={anim("fly", 14 + k * 2, k * 3, "linear")} />
         ))}
       </Layer>
@@ -353,7 +353,7 @@ function Now() {
           {palace}
         </g>
         <rect x="186" y="292" width="48" height="120" fill="#ffd98f" opacity="0.18" style={anim("shimmer", 2.5)} />
-        {Array.from({ length: 8 }, (_, k) => (
+        {Array.from({ length: 4 }, (_, k) => (
           <line key={k} x1={n(rand(k, 81) * 300)} x2={n(rand(k, 81) * 300 + 60 + rand(k, 82) * 60)} y1={300 + k * 14} y2={300 + k * 14} stroke={PAPER} strokeOpacity="0.12" style={anim("wave-x", 5 + k, 0, "linear")} />
         ))}
         {/* A boat crossing the lake */}

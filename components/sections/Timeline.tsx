@@ -6,6 +6,7 @@ import { timeline, type Memory, sectionLabel } from "@/data/content";
 import { playSound } from "@/lib/sound";
 import SplitReveal from "@/components/ui/SplitReveal";
 import MemoryScene from "@/components/ui/MemoryScenes";
+import LazyVisual from "@/components/ui/LazyVisual";
 
 const TILT = [-3, 2.5, -1.5, 3, -2];
 const OFFSET = ["md:-translate-y-6", "md:translate-y-10", "md:-translate-y-2", "md:translate-y-8", "md:-translate-y-8"];
@@ -49,9 +50,9 @@ function Polaroid({ m, i }: { m: Memory; i: number }) {
                 e.currentTarget.style.removeProperty("--py");
               }}
             >
-              <div className="absolute inset-0 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]">
+              <LazyVisual className="absolute inset-0 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]" rootMargin="400px">
                 <MemoryScene id={m.id} />
-              </div>
+              </LazyVisual>
               <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
               <div aria-hidden className="memory-leak pointer-events-none absolute inset-0 mix-blend-screen" />
               <div
@@ -138,9 +139,9 @@ export default function Timeline() {
           const photo = card.querySelector("[data-photo]");
           gsap.fromTo(
             card,
-            { filter: "blur(10px) grayscale(1)", opacity: 0.35, yPercent: 8, scale: 0.92 },
+            { filter: "grayscale(1)", opacity: 0.35, yPercent: 8, scale: 0.92 },
             {
-              filter: "blur(0px) grayscale(0)",
+              filter: "grayscale(0)",
               opacity: 1,
               yPercent: 0,
               scale: 1,
@@ -166,9 +167,9 @@ export default function Timeline() {
         gsap.utils.toArray<HTMLElement>("[data-memory]", track.current).forEach((card) => {
           gsap.fromTo(
             card,
-            { filter: "blur(8px) grayscale(1)", opacity: 0.3, y: 60 },
+            { filter: "grayscale(1)", opacity: 0.3, y: 60 },
             {
-              filter: "blur(0px) grayscale(0)",
+              filter: "grayscale(0)",
               opacity: 1,
               y: 0,
               ease: "power2.out",

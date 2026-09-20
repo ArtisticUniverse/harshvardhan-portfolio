@@ -5,6 +5,7 @@ import { gsap, useGSAP } from "@/lib/gsap";
 import { claudeBuilds, ogBuilds, type ClaudeBuild, sectionLabel } from "@/data/content";
 import SplitReveal from "@/components/ui/SplitReveal";
 import ProjectArt from "@/components/ui/ProjectArt";
+import LazyVisual from "@/components/ui/LazyVisual";
 import { openProject } from "@/components/global/ProjectSheet";
 import Terminal from "./Terminal";
 
@@ -191,9 +192,9 @@ export default function VibeLab() {
             <article key={b.id} className="group relative flex flex-col overflow-hidden rounded-sm border border-ink/12">
               <button type="button" onClick={() => openProject(b.id)} data-cursor="VIEW" className="relative aspect-[16/8] overflow-hidden text-left">
                 <span className="sr-only">Open the {b.name} case study</span>
-                <div className="absolute inset-0 transition-transform duration-1000 ease-out group-hover:scale-105">
+                <LazyVisual className="absolute inset-0 transition-transform duration-1000 ease-out group-hover:scale-105">
                   <ProjectArt kind={b.art ?? "data"} />
-                </div>
+                </LazyVisual>
                 <span className="mono-label absolute left-4 top-4 rounded-full bg-[#0A0A0A]/70 px-2.5 py-1 text-[#F2F0EA]">
                   {b.index} · {b.year}
                 </span>

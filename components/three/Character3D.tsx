@@ -93,7 +93,7 @@ function Bust({ src, depth, state, onReady }: { src: string; depth: string; stat
   const height = mobile ? viewport.height * 0.9 : viewport.height * 0.98;
   const width = height * aspect;
 
-  const geometry = useMemo(() => new THREE.PlaneGeometry(1, 1, 160, 170), []);
+  const geometry = useMemo(() => new THREE.PlaneGeometry(1, 1, 96, 104), []);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
   const uniforms = useMemo(
@@ -176,7 +176,7 @@ export default function Character3D({
       className="!absolute inset-0"
       linear
       flat
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
       camera={{ position: [0, 0, 6], fov: 32 }}
       gl={{ antialias: true, alpha: true, premultipliedAlpha: true }}
       frameloop={active ? "always" : "never"}

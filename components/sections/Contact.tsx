@@ -74,8 +74,18 @@ export default function Contact() {
           sy(1 + Math.min(Math.abs(v) * 0.018, 0.45));
           sk(gsap.utils.clamp(-12, 12, -v * 0.3));
         };
-        gsap.ticker.add(tick);
-        return () => gsap.ticker.remove(tick);
+        let running = false;
+        const io = new IntersectionObserver(([e]) => {
+          if (e.isIntersecting === running) return;
+          running = e.isIntersecting;
+          if (running) gsap.ticker.add(tick);
+          else gsap.ticker.remove(tick);
+        });
+        if (root.current) io.observe(root.current);
+        return () => {
+          io.disconnect();
+          gsap.ticker.remove(tick);
+        };
       });
       return () => mm.revert();
     },

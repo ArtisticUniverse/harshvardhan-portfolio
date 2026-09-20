@@ -60,8 +60,20 @@ export default function StatsMarquee() {
           tweens.forEach((t) => t.timeScale(ts));
           skew(gsap.utils.clamp(-8, 8, -v * 0.25));
         };
-        gsap.ticker.add(tick);
-        return () => gsap.ticker.remove(tick);
+        let running = false;
+        const setRunning = (on: boolean) => {
+          if (on === running) return;
+          running = on;
+          if (on) gsap.ticker.add(tick);
+          else gsap.ticker.remove(tick);
+          tweens.forEach((t) => (on ? t.play() : t.pause()));
+        };
+        const io = new IntersectionObserver(([e]) => setRunning(e.isIntersecting), { rootMargin: "120px" });
+        if (root.current) io.observe(root.current);
+        return () => {
+          io.disconnect();
+          setRunning(false);
+        };
       });
     },
     { scope: root },

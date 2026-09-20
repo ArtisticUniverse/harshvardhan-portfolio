@@ -32,8 +32,14 @@ export default function HUD() {
     ScrollTrigger.refresh();
 
     let smooth = 0;
+    let max = document.documentElement.scrollHeight - window.innerHeight;
+    const remeasure = () => {
+      max = document.documentElement.scrollHeight - window.innerHeight;
+    };
+    window.addEventListener("resize", remeasure);
+    ScrollTrigger.addEventListener("refresh", remeasure);
+
     const tick = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
       const p = max > 0 ? Math.round(((scroll.y || window.scrollY) / max) * 100) : 0;
       if (pct.current) pct.current.textContent = String(Math.min(100, Math.max(0, p))).padStart(3, "0");
       smooth += (scroll.velocity - smooth) * 0.15;
@@ -43,6 +49,8 @@ export default function HUD() {
     gsap.ticker.add(tick);
     return () => {
       triggers.forEach((t) => t?.kill());
+      window.removeEventListener("resize", remeasure);
+      ScrollTrigger.removeEventListener("refresh", remeasure);
       gsap.ticker.remove(tick);
     };
   }, [loaded]);
