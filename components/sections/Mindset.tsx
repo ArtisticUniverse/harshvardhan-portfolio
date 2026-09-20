@@ -8,6 +8,9 @@ import { principles, sectionLabel } from "@/data/content";
 import { buildMemo, type Memo } from "@/lib/memo";
 import { playSound } from "@/lib/sound";
 import Magnetic from "@/components/ui/Magnetic";
+import ScreenPipeline from "@/components/ui/ScreenPipeline";
+import LazyVisual from "@/components/ui/LazyVisual";
+import { cn } from "@/lib/cn";
 
 if (typeof window !== "undefined") gsap.registerPlugin(MorphSVGPlugin);
 
@@ -142,16 +145,53 @@ function Principles() {
 
 const EXAMPLES = [
   "AI copilot that automates GST filing for Indian SMBs on a subscription",
-  "Quick-commerce for tier-2 pharmacies",
+  "Quick-commerce for tier-2 pharmacies that wait days for stock; we take a commission",
   "Uber for dog walkers",
+  "an app",
 ];
 
+function Criteria({ memo }: { memo: Memo }) {
+  return (
+    <ul className="mt-5 flex flex-col gap-1.5">
+      {memo.criteria.map((c, i) => (
+        <m.li
+          key={c.key}
+          className="flex items-start gap-3 text-sm"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 + i * 0.07 }}
+        >
+          <span
+            className={cn(
+              "mt-[1px] flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] text-[10px] font-bold",
+              c.met ? "bg-[#0A0A0A] text-[#EBB94A]" : "border border-black/25 text-black/35",
+            )}
+          >
+            {c.met ? "✓" : "✕"}
+          </span>
+          <span className={c.met ? "" : "opacity-55"}>
+            {c.label}
+            {!c.met && <span className="opacity-70"> — {c.hint}</span>}
+          </span>
+        </m.li>
+      ))}
+    </ul>
+  );
+}
+
 function MemoCard({ memo }: { memo: Memo }) {
-  const verdictColor =
-    memo.verdict === "TAKE THE MEETING" ? "bg-accent text-on-accent" : memo.verdict === "WATCHLIST" ? "border border-ink/40" : "border border-[#ff6b5b] text-[#ff6b5b]";
+  const rejected = memo.status === "rejected";
+  const verdictColor = rejected
+    ? "border border-[#c2453a] text-[#c2453a]"
+    : memo.verdict === "TAKE THE MEETING"
+      ? "bg-accent text-on-accent"
+      : memo.verdict === "WATCHLIST"
+        ? "border border-ink/40"
+        : "border border-[#c2453a] text-[#c2453a]";
+
   return (
     <m.article
-      key={memo.company + memo.overall}
+      key={memo.company + memo.overall + memo.status}
       initial={{ y: 60, opacity: 0, rotate: -2 }}
       animate={{ y: 0, opacity: 1, rotate: 0 }}
       exit={{ y: -40, opacity: 0 }}
@@ -159,73 +199,90 @@ function MemoCard({ memo }: { memo: Memo }) {
       className="relative overflow-hidden rounded-sm bg-[rgb(var(--paper))] p-6 text-[rgb(var(--paper-ink))] shadow-[0_40px_100px_-40px_rgba(0,0,0,0.7)] md:p-8"
     >
       <div className="mono-label flex justify-between opacity-60">
-        <span>Investment memo {memo.number}</span>
-        <span>Confidential · mock</span>
+        <span>{rejected ? "Screening note" : `Investment memo ${memo.number}`}</span>
+        <span>{rejected ? "Not scored" : "Confidential · mock"}</span>
       </div>
+
       <div className="mt-5 flex items-start justify-between gap-4">
         <div>
           <h4 className="text-3xl font-semibold leading-none tracking-tight md:text-4xl">{memo.company}</h4>
           <p className="mono-label mt-2 opacity-60">
-            {memo.sector} · market: {memo.market}
+            {memo.sector}
+            {!rejected && ` · market: ${memo.market}`}
           </p>
         </div>
-        <div className="text-right">
-          <m.div
-            className="text-5xl font-semibold leading-none tracking-tighter md:text-6xl"
-            initial={{ scale: 0.6, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.25, type: "spring", stiffness: 300, damping: 16 }}
-          >
-            {memo.overall.toFixed(1)}
-          </m.div>
-          <div className="mono-label opacity-60">/ 10</div>
-        </div>
+        {!rejected && (
+          <div className="text-right">
+            <m.div
+              className="text-5xl font-semibold leading-none tracking-tighter md:text-6xl"
+              initial={{ scale: 0.6, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.25, type: "spring", stiffness: 300, damping: 16 }}
+            >
+              {memo.overall.toFixed(1)}
+            </m.div>
+            <div className="mono-label opacity-60">/ 10</div>
+          </div>
+        )}
       </div>
 
-      <ul className="mt-6 flex flex-col gap-2.5">
-        {memo.scores.map((s, i) => (
-          <li key={s.label} className="grid grid-cols-[120px_1fr_32px] items-center gap-3 text-sm">
-            <span className="opacity-70">{s.label}</span>
-            <span className="relative h-1.5 overflow-hidden rounded-full bg-black/10">
-              <m.span
-                className="absolute inset-y-0 left-0 rounded-full"
-                style={{ background: s.label === "Execution risk" ? "#ff6b5b" : "#0A0A0A" }}
-                initial={{ width: 0 }}
-                animate={{ width: `${s.value * 10}%` }}
-                transition={{ delay: 0.3 + i * 0.08, duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-              />
-            </span>
-            <span className="text-right font-mono text-xs">{s.value.toFixed(1)}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-6 grid gap-5 border-t border-black/10 pt-5 sm:grid-cols-2">
-        <div>
-          <p className="mono-label opacity-60">Why it could work</p>
-          <ul className="mt-2 flex flex-col gap-1 text-sm leading-snug">
-            {memo.strengths.map((s) => (
-              <li key={s}>+ {s}</li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <p className="mono-label opacity-60">Key risks</p>
-          <ul className="mt-2 flex flex-col gap-1 text-sm leading-snug">
-            {memo.risks.map((s) => (
-              <li key={s}>− {s}</li>
-            ))}
-          </ul>
-        </div>
+      <div className="mt-6 border-t border-black/10 pt-4">
+        <p className="mono-label opacity-60">
+          Screen · {memo.criteria.filter((c) => c.met).length} of 5 criteria met
+        </p>
+        <Criteria memo={memo} />
       </div>
+
+      {rejected ? (
+        <p className="mt-5 border-t border-black/10 pt-4 text-[15px] leading-snug">{memo.rejection}</p>
+      ) : (
+        <>
+          <ul className="mt-5 flex flex-col gap-2.5 border-t border-black/10 pt-4">
+            {memo.scores.map((sc, i) => (
+              <li key={sc.label} className="grid grid-cols-[120px_1fr_32px] items-center gap-3 text-sm">
+                <span className="opacity-70">{sc.label}</span>
+                <span className="relative h-1.5 overflow-hidden rounded-full bg-black/10">
+                  <m.span
+                    className="absolute inset-y-0 left-0 rounded-full"
+                    style={{ background: sc.label === "Execution risk" ? "#c2453a" : "#0A0A0A" }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${sc.value * 10}%` }}
+                    transition={{ delay: 0.3 + i * 0.08, duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+                  />
+                </span>
+                <span className="text-right font-mono text-xs">{sc.value.toFixed(1)}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6 grid gap-5 border-t border-black/10 pt-5 sm:grid-cols-2">
+            <div>
+              <p className="mono-label opacity-60">Why it could work</p>
+              <ul className="mt-2 flex flex-col gap-1 text-sm leading-snug">
+                {memo.strengths.map((t) => (
+                  <li key={t}>+ {t}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="mono-label opacity-60">Key risks</p>
+              <ul className="mt-2 flex flex-col gap-1 text-sm leading-snug">
+                {memo.risks.map((t) => (
+                  <li key={t}>− {t}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </>
+      )}
 
       <m.div
         className={`mono-label mt-6 inline-flex rounded-sm px-3 py-2 text-sm font-bold ${verdictColor}`}
         initial={{ scale: 2.2, opacity: 0, rotate: -12 }}
         animate={{ scale: 1, opacity: 1, rotate: -3 }}
-        transition={{ delay: 0.75, type: "spring", stiffness: 420, damping: 18 }}
+        transition={{ delay: rejected ? 0.4 : 0.75, type: "spring", stiffness: 420, damping: 18 }}
       >
-        Verdict: {memo.verdict}
+        {rejected ? "Rejected at screen" : `Verdict: ${memo.verdict}`}
       </m.div>
     </m.article>
   );
@@ -245,7 +302,10 @@ function PitchMe() {
   };
 
   return (
-    <section aria-labelledby="pitch-title" className="gutter relative py-24 md:py-36">
+    <section aria-labelledby="pitch-title" className="gutter relative overflow-hidden py-24 md:py-36">
+      <LazyVisual className="pointer-events-none absolute inset-x-0 top-1/2 -z-10 hidden h-[240px] -translate-y-1/2 text-ink opacity-[0.13] lg:block">
+        <ScreenPipeline />
+      </LazyVisual>
       <div className="grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <p className="mono-label text-muted">[ INTERACTIVE — THE VC LENS ]</p>
@@ -253,7 +313,7 @@ function PitchMe() {
             Pitch me a <span className="text-accent-ink">startup.</span>
           </h3>
           <p className="mt-6 max-w-[40ch] text-lg leading-snug text-ink/75">
-            One line is enough. You&apos;ll get the kind of first-pass memo Harsh wrote 57 times as a VC analyst — market, moat, timing, model and risk.
+            Same screen Harsh ran 150+ times: a pitch has to clear five criteria before it earns a memo. Most don&apos;t — the rest get scored on market, moat, timing, model and execution risk.
           </p>
           <form
             className="mt-8"
@@ -305,7 +365,7 @@ function PitchMe() {
               ))}
             </div>
           </form>
-          <p className="mono-label mt-8 text-muted">Rule-based toy for fun — not investment advice.</p>
+          <p className="mono-label mt-8 text-muted">Rule-based screen, no AI — same checklist every time. For fun, not investment advice.</p>
         </div>
 
         <div className="lg:col-span-6 lg:col-start-7" aria-live="polite">
@@ -318,9 +378,12 @@ function PitchMe() {
                 exit={{ opacity: 0, y: -20 }}
                 className="flex min-h-[420px] flex-col items-center justify-center rounded-sm border border-dashed border-ink/20 p-10 text-center"
               >
-                <span className="mono-label text-muted">Memo #058 · awaiting pitch</span>
-                <p className="mt-4 max-w-[22ch] text-2xl font-medium leading-tight tracking-tight text-ink/60">
-                  The analyst is ready. The coffee is not.
+                <span className="mono-label text-muted">Screen open · awaiting pitch</span>
+                <p className="mt-4 max-w-[24ch] text-2xl font-medium leading-tight tracking-tight text-ink/60">
+                  Five criteria. Clear three, and it gets a memo.
+                </p>
+                <p className="mono-label mt-5 max-w-[34ch] text-muted">
+                  who it&apos;s for · what breaks today · how it works · how it makes money · which market
                 </p>
               </m.div>
             )}
