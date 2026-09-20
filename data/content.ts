@@ -757,6 +757,19 @@ export const contact = {
   heading: ["LET'S BUILD", "SOMETHING"],
   blurb:
     "Hiring for Finance, Strategy, VC or Product? Building something that needs an operator who can code? Let's talk.",
+  /** Availability pill above the sign-off. */
+  status: "Open to internships · Summer 2027",
+  /** Roles worth reaching out about. */
+  looking: ["Finance", "Strategy", "Venture Capital", "Product", "AI-native builds"],
+  /** Three numbers that close the argument. */
+  highlights: [
+    { value: 150, suffix: "+", label: "startups evaluated" },
+    { value: 20000, suffix: "+", label: "schools reached" },
+    { value: 25, suffix: "+", label: "SMB clients shipped for" },
+  ],
+  note: "Fastest reply: email or WhatsApp.",
+  signOff: "Let's make the next one worth writing about.",
+  signature: "Harsh",
 };
 
 /* ── Recruiter mode (one-page CV) ─────────────────────────────────────────── */

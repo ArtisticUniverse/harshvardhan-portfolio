@@ -18,6 +18,38 @@ const BUTTONS = [
   { label: "Download CV", sub: "PDF", href: links.cv, cursor: "SAVE", download: true },
 ];
 
+/** Counts up to a number the first time it scrolls into view. */
+function Stat({ value, suffix, label }: { value: number; suffix: string; label: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const out = useRef<HTMLSpanElement>(null);
+
+  useGSAP(
+    () => {
+      const o = { v: 0 };
+      gsap.to(o, {
+        v: value,
+        duration: 1.8,
+        ease: "power3.out",
+        onUpdate: () => {
+          if (out.current) out.current.textContent = Math.round(o.v).toLocaleString("en-IN");
+        },
+        scrollTrigger: { trigger: ref.current, start: "top 90%", once: true },
+      });
+    },
+    { scope: ref },
+  );
+
+  return (
+    <div ref={ref}>
+      <div className="text-[clamp(1.3rem,3vw,2.6rem)] font-semibold leading-none tracking-[-0.04em] text-accent-ink">
+        <span ref={out} className="tabular-nums">0</span>
+        {suffix}
+      </div>
+      <div className="mono-label mt-1.5 text-muted">{label}</div>
+    </div>
+  );
+}
+
 export default function Contact() {
   const root = useRef<HTMLElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -69,10 +101,43 @@ export default function Contact() {
         </h2>
 
         <div className="mt-14 grid gap-10 md:grid-cols-12">
-          <p className="max-w-[40ch] text-xl leading-snug text-ink/80 md:col-span-5">{contact.blurb}</p>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:col-span-7">
+          <div className="flex flex-col gap-8 md:col-span-5">
+            <div>
+              <span className="mono-label inline-flex items-center gap-2 rounded-full border border-accent/50 px-3 py-1.5 text-accent-ink">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+                {contact.status}
+              </span>
+              <p className="mt-5 max-w-[40ch] text-xl leading-snug text-ink/80">{contact.blurb}</p>
+            </div>
+
+            <div>
+              <p className="mono-label text-muted">Reach out about</p>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {contact.looking.map((l) => (
+                  <li key={l} className="rounded-full border border-ink/20 px-3.5 py-1.5 text-sm transition-colors hover:border-accent hover:text-accent-ink">
+                    {l}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="grid grid-cols-3 gap-x-3 gap-y-5 border-y border-ink/10 py-6">
+              {contact.highlights.map((h) => (
+                <Stat key={h.label} {...h} />
+              ))}
+            </div>
+
+            <div>
+              <p className="max-w-[32ch] text-lg leading-snug text-ink/70">{contact.signOff}</p>
+              <p className="mt-4 text-[clamp(2.4rem,5vw,4rem)] font-medium italic leading-none tracking-[-0.03em] text-accent-ink">
+                {contact.signature}
+              </p>
+              <p className="mono-label mt-4 text-muted">{contact.note}</p>
+            </div>
+          </div>
+          <div className="grid h-fit grid-cols-2 gap-3 sm:grid-cols-3 md:col-span-7">
             {BUTTONS.map((b) => (
-              <Magnetic key={b.label} strength={0.45} className="block">
+              <Magnetic key={b.label} strength={0.45} className="mx-auto block w-full max-w-[260px]">
                 <a
                   href={b.href}
                   {...(b.external ? { target: "_blank", rel: "noreferrer" } : {})}
