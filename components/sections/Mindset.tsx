@@ -122,10 +122,10 @@ function Principles() {
                 data-principle
                 className={`[grid-area:1/1] motion-reduce:visible motion-reduce:[grid-area:auto] ${i === 0 ? "" : "invisible"}`}
               >
-                <p data-split className="text-[clamp(4rem,14vw,15rem)] font-semibold uppercase leading-[0.8] tracking-[-0.06em]">
+                <p data-split className="whitespace-nowrap text-[clamp(2.8rem,10.5vw,11.5rem)] font-semibold uppercase leading-[0.85] tracking-[-0.06em]">
                   {p.verb}
                 </p>
-                <p data-split className="mt-2 text-[clamp(2rem,5.5vw,5.5rem)] font-medium leading-[0.95] tracking-[-0.04em] text-accent-ink">
+                <p data-split className="mt-3 text-[clamp(1.6rem,4.6vw,4.6rem)] font-medium leading-[1] tracking-[-0.04em] text-accent-ink">
                   {p.like}
                 </p>
                 <p data-proof className="mt-6 max-w-[38ch] text-lg leading-snug text-ink/75 md:text-xl">
