@@ -143,7 +143,7 @@ export const about = {
   nowTitle: "Currently",
   now: [
     { k: "Studying", v: "Finance, Marketing, Microeconomics, Stats & OB at IIM Udaipur" },
-    { k: "Building", v: "Putri Manager — an urban-life OS for property operations" },
+    { k: "Building", v: "Putri Manager — an urban-life OS for property operations, and Interaction, an encrypted messenger" },
     { k: "Learning", v: "FMVA, and whatever the next build demands" },
     { k: "Playing", v: "Chess — still an e4 person" },
     { k: "Recharging", v: "Laps in the pool, phone far away" },
@@ -262,7 +262,7 @@ export type Project = {
   skills: string[];
   /** Optional image path in /public. Leave empty to use the generative artwork. */
   image?: string;
-  art?: "data" | "rings" | "leaf" | "face" | "signal" | "wave";
+  art?: "data" | "rings" | "leaf" | "face" | "signal" | "wave" | "chat";
   href?: string;
 };
 
@@ -448,6 +448,59 @@ export const projects: Project[] = [
     href: "https://github.com/ArtisticUniverse/NetScope",
   },
   {
+    id: "interaction",
+    index: "L/03",
+    name: "Interaction",
+    category: "lab",
+    kind: "End-to-end encrypted messenger · by Putri Innovations",
+    year: "2026",
+    role: "Builder (with Claude)",
+    summary:
+      "A messenger that refuses to read your messages — and costs nothing to run. Web and Android share one codebase and one Firebase backend, and every message is encrypted on the device before it ever leaves it.",
+    metrics: [
+      { value: "E2E", label: "encrypted on device" },
+      { value: "2", label: "platforms · web + Android" },
+      { value: "₹0", label: "running cost" },
+    ],
+    features: [
+      {
+        title: "End-to-end encryption",
+        desc: "Per-device ECDH P-256 keys — the private key never leaves the phone — with AES-256-GCM on every message. The server only ever holds ciphertext.",
+      },
+      {
+        title: "View once",
+        desc: "The recipient's wrapped key is deleted the moment the message is opened, and Android blocks screenshots while it is on screen.",
+      },
+      {
+        title: "Disappearing chats",
+        desc: "A one-hour window enforced by server rules, with clients sweeping anything expired — no paid background jobs needed.",
+      },
+      {
+        title: "Groups, calls and status",
+        desc: "Group chats, 1:1 voice and video over WebRTC peer-to-peer, and 24-hour text status.",
+      },
+      {
+        title: "Private contact discovery",
+        desc: "Contacts are matched by salted SHA-256 hashes tied to the verified login, so no address book is ever uploaded.",
+      },
+      {
+        title: "Free by design",
+        desc: "Profile photos are 256px JPEGs inside the user document and images ride encrypted in Firestore — no paid storage, no paid SMS.",
+      },
+    ],
+    howItWorks: [
+      { title: "Keys", desc: "Every device generates its own ECDH P-256 pair on first run; only the public half is ever published." },
+      { title: "Lock", desc: "The sender derives a shared secret with the recipient's public key and encrypts the message with AES-256-GCM." },
+      { title: "Rules", desc: "Firestore security rules decide who may read what, enforce the disappearing window and keep lookups hash-only." },
+      { title: "Deliver", desc: "The same React code runs on the web through Vercel and on Android through Capacitor, against one Firebase project." },
+      { title: "Forget", desc: "Clients sweep expired messages, view-once keys are destroyed on open, and status disappears after 24 hours." },
+    ],
+    stack: ["React", "Vite", "TypeScript", "Capacitor", "Firebase", "WebRTC", "Web Crypto"],
+    skills: ["Full-Stack", "Prompt Engineering", "Product Strategy", "GenAI"],
+    art: "chat",
+    href: "https://interaction-app.vercel.app",
+  },
+  {
     id: "spectra",
     index: "L/02",
     name: "SPECTRA",
@@ -539,6 +592,17 @@ export const claudeBuilds: ClaudeBuild[] = [
     output: "Installable, dependency-free PWA deployed on Vercel.",
     impact: "Sensor fusion in the browser with an honesty-first product rule.",
     projectId: "spectra",
+  },
+  {
+    id: "interaction",
+    title: "Interaction",
+    stack: "React · Capacitor · Firebase",
+    prompt:
+      "Build an end-to-end encrypted messenger that runs on a free Firebase plan — one codebase for web and Android, server never sees plaintext.",
+    output: "Live web app and a signed Android build: E2E chats, view-once, disappearing messages, calls and status.",
+    impact: "A real messaging product shipped with a ₹0 backend bill.",
+    href: "https://interaction-app.vercel.app",
+    projectId: "interaction",
   },
   {
     id: "news-agent",

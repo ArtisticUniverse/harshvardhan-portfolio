@@ -143,6 +143,55 @@ export default function ProjectArt({ kind }: { kind: NonNullable<Project["art"]>
           ))}
         </div>
       );
+    case "chat":
+      return (
+        <div className="absolute inset-0 overflow-hidden bg-[#0b0b0a]">
+          <div
+            className="absolute inset-0 opacity-25"
+            style={{
+              backgroundImage: "linear-gradient(rgba(242,240,234,0.06) 1px, transparent 1px)",
+              backgroundSize: "100% 26px",
+            }}
+          />
+          {/* Ciphertext going out, plaintext arriving */}
+          {[
+            { x: "8%", y: "16%", w: "54%", mine: false, text: "8f2a c41d 9b07 e55a" },
+            { x: "34%", y: "35%", w: "58%", mine: true, text: "they never see this" },
+            { x: "8%", y: "55%", w: "48%", mine: false, text: "d10c 77be 2fa9" },
+            { x: "40%", y: "73%", w: "52%", mine: true, text: "opened once · gone" },
+          ].map((b, i) => (
+            <div
+              key={i}
+              className="absolute rounded-xl px-3 py-2 font-mono text-[10px] leading-tight"
+              style={{
+                left: b.x,
+                top: b.y,
+                width: b.w,
+                background: b.mine ? GOLD : "rgba(242,240,234,0.08)",
+                color: b.mine ? "#0A0A0A" : "rgba(242,240,234,0.75)",
+                borderBottomRightRadius: b.mine ? 2 : undefined,
+                borderBottomLeftRadius: b.mine ? undefined : 2,
+                animation: `bob ${2.6 + i * 0.4}s ease-in-out ${i * 0.35}s infinite`,
+              }}
+            >
+              {b.text}
+            </div>
+          ))}
+          {/* Key handshake */}
+          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 200 200" preserveAspectRatio="none" aria-hidden>
+            <path d="M24 44 C 90 70 110 120 176 150" fill="none" stroke={GOLD} strokeOpacity="0.4" strokeDasharray="3 4" style={{ animation: "dash 2s linear infinite" }} />
+          </svg>
+          <div className="absolute bottom-3 left-3 flex items-center gap-2">
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke={GOLD} strokeWidth="2" aria-hidden>
+              <rect x="4" y="10" width="16" height="10" rx="2" />
+              <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+            </svg>
+            <span className="mono-label" style={{ color: GOLD }}>
+              E2E · DEVICE KEYS
+            </span>
+          </div>
+        </div>
+      );
     case "wave":
     default:
       return (
